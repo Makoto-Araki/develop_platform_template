@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  # リポジトリ名に基づいたリソース名
+  name: develop-platform-template-cronjob
+spec:
+  # 実行スケジュールの設定（10分ごとに実行）
+  schedule: "*/10 * * * *"
+  # 前回Jobが終了しない限り次を起動しない
+  concurrencyPolicy: Forbid
+  # 失敗時のリトライ回数
+  backoffLimit: 1
+  # 同時実行数の上限
+  parallelisum: 1
+  # Job完了とする成功回数
+  completions: 1
+  # 成功履歴を三個まで保持
+  successfulJobsHistoryLimit: 3
+  # 失敗履歴を一個まで保持
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          # 実行時のコンテナ名
+          - name: develop-platform-template-container
+            # DockerHub上からダウンロード
+            image: makotoaraki346/develop_platform_template_image:v0.6.0
+            # ローカルに無い場合のみダウンロード
+            imagePullPolicy: IfNotPresent
+            # Dockerイメージ内にCMDが無い場合に実行
+            command: ["python", "src/main.py"]
+          # 異常終了した場合のみ再起動
+          restartPolicy: OnFailure

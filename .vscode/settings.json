@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.defaultInterpreterPath": "python",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  },
+  "search.exclude": {
+    "**/__pycache__": true
+  }
+}

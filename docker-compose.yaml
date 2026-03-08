@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  mysql:
+    # MySQL8
+    image: mysql:8
+    # 再起動
+    restart: always
+    # Settings
+    environment:
+      # root password
+      MYSQL_ROOT_PASSWORD: root
+      # application DB
+      MYSQL_DATABASE: devdb
+      # application user
+      MYSQL_USER: dev
+      # application password
+      MYSQL_PASSWORD: dev
+    # Port Forward Setting
+    ports:
+      # host:container
+      - "3306:3306"
+    volumes:
+      # データ永続化
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

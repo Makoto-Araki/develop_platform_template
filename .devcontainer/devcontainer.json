@@ -1,0 +1,8 @@
+{
+    "name": "develop_platform_template",
+    "build": {
+        "dockerfile": "Dockerfile-dev",
+        "context": ".."
+    },
+    "workspaceFolder": "/app"
+}
