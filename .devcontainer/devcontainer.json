@@ -4,5 +4,5 @@
         "dockerfile": "Dockerfile-dev",
         "context": ".."
     },
-    "workspaceFolder": "/app"
+    "workspaceFolder": "/workspaces/develop_platform_template"
 }
