@@ -22,7 +22,7 @@
 - WSL Terminal上で作業 (DevContainer内の作業も存在)
 - WSL Terminal上でkubectlが使用可能でKubernetesクラスタ接続可
 
-## 環境構築＋開発作業＋テスト実行＋プッシュ
+## 環境構築＋開発作業＋テスト実行
 説明の都合上、リモートリポジトリ名とローカルリポジトリ名を同名にしている
 ```bash
 ## ディレクトリ作成
@@ -48,22 +48,12 @@ $ code .
 
 ## DevContainer内でテスト実行
 $ pytest
-
-## ソース内容をステージング移行
-$ git add .
-
-## ソース内容をコミット
-$ git commit -m 新規作成
-
-## 初回プッシュ(初回のみmainブランチに直接プッシュ)
-$ git push origin main
 ```
 
-## デプロイ(CI/CD導入前)
+## 手動デプロイ(CI/CD導入前)
 - Docker Desktop上のKubernetesクラスタをデプロイ先に想定
 - Namespace名はuser-appsに想定
 - KubernetesリソースはCronjobリソースを使用
-- Secretリソースは今回使用しない
 
 ```bash
 ## 本番用のDockerイメージをビルド
