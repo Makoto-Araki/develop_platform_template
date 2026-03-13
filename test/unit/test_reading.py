@@ -1,3 +1,14 @@
+"""
+to_hiragana 関数の単体テスト
+
+1. 正常系テスト
+    日本語文字列が正しく平仮名へ変換されること
+2. 異常系テスト
+    引数の text がstr型でない場合にTypeError例外発生
+3. 異常系テスト
+    引数の text にASCII文字が含まれている場合にTypeError例外発生
+"""
+
 import pytest
 from src.jptext.reading import to_hiragana
 

@@ -1,3 +1,12 @@
+"""
+to_half_width 関数の単体テスト
+
+1. 正常系テスト
+    日本語文字列のみ半角に変換
+2. 異常系テスト
+    引数の text がstr型でない場合にTypeError例外発生
+"""
+
 import pytest
 from src.jptext.width import to_half_width
 
