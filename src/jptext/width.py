@@ -10,7 +10,7 @@ def to_half_width(text: str) -> str:
     - 全角英数字を半角英数字に変換
 
     Parameters
-    ----------
+    -------
     text : str
         変換対象の文字列
 
@@ -20,7 +20,7 @@ def to_half_width(text: str) -> str:
         半角化された文字列
 
     Raises
-    ------
+    -------
     TypeError
         text が str 型でない場合
     """
