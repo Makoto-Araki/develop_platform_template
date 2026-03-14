@@ -25,7 +25,7 @@ jobs:
       #    - push しない
       #    - キャッシュやタグ管理は不要
       - name: Build image for CI
-        run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile .
+        run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
       # 3. 単体・機能テストの実行
       #    - Pull Requestで最低限保証したい品質

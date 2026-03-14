@@ -23,7 +23,7 @@ jobs:
 
       # 2. Dockerイメージを本番相当でビルド
       - name: Build image
-        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile .
+        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile-dev .
 
       # 3. 脆弱性スキャン
       #    - main では必ずセキュリティを確認
