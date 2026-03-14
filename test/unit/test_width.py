@@ -1,6 +1,7 @@
 """
-to_half_width 関数の単体テスト
+width モジュールの単体テスト
 
+to_half_width
 1. 正常系テスト
     日本語文字列のみ半角に変換
 2. 異常系テスト
@@ -11,8 +12,9 @@ import pytest
 from src.jptext.width import to_half_width
 
 # --------------------------------------------------
-# 正常系テスト
+# to_half_widthテスト
 # --------------------------------------------------
+
 @pytest.mark.parametrize(
     'a, expected',
     [
@@ -30,9 +32,6 @@ from src.jptext.width import to_half_width
 def test_to_half_width_success_behavior(a, expected):
     assert expected == to_half_width(a)
 
-# --------------------------------------------------
-# 異常系テスト
-# --------------------------------------------------
 @pytest.mark.parametrize(
     'a',
     [
