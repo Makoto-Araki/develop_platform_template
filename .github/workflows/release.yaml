@@ -24,7 +24,7 @@ jobs:
 
       # 2. リリース用イメージをビルド
       - name: Build release image
-        run: docker build -t develop_platform_template_image:release .
+        run: docker build -t develop_platform_template_image:release -f .devcontainer/Dockerfile .
 
       # 3. DockerHubにログイン
       - name: Login to DockerHub
