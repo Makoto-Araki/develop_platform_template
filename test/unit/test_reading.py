@@ -1,6 +1,7 @@
 """
-to_hiragana 関数の単体テスト
+reading モジュールの単体テスト
 
+to_hiragana
 1. 正常系テスト
     日本語文字列が正しく平仮名へ変換されること
 2. 異常系テスト
@@ -13,8 +14,9 @@ import pytest
 from src.jptext.reading import to_hiragana
 
 # --------------------------------------------------
-# 正常系テスト
+# to_hiraganaテスト
 # --------------------------------------------------
+
 @pytest.mark.parametrize(
     'a, expected',
     [
@@ -30,9 +32,6 @@ from src.jptext.reading import to_hiragana
 def test_to_hiragana_success_behavior(a, expected):
     assert expected == to_hiragana(a)
 
-# --------------------------------------------------
-# 異常系テスト
-# --------------------------------------------------
 @pytest.mark.parametrize(
     'a',
     [
@@ -49,9 +48,6 @@ def test_to_hiragana_type_error_behavior(a):
     with pytest.raises(TypeError, match='text must be str'):
         to_hiragana(a)
 
-# --------------------------------------------------
-# 異常系テスト
-# --------------------------------------------------
 @pytest.mark.parametrize(
     'a',
     [
