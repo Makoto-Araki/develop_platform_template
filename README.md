@@ -1,4 +1,4 @@
-![PR Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/pull_request_ci.yaml/badge.svg)
+![PR Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/pull_request.yaml/badge.svg)
 ![Main Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/main_ci.yaml/badge.svg)
 ![Release Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/release.yaml/badge.svg)
 
