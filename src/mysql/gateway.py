@@ -29,6 +29,11 @@ class MySQLGateway:
             なし
         """
 
+        env_host = os.getenv("DB_HOST")
+
+        if env_host:
+            config["host"] = env_host
+
         self.config = config
 
     def execute_query(self, sql: str) -> pd.DataFrame:
