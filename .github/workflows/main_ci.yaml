@@ -44,9 +44,7 @@ jobs:
 
       # 3. Dockerイメージをビルド(Dockerfile-devを使用)
       - name: Build image
-        run: docker build \
-          -t develop_platform_template_image:main \
-          -f .devcontainer/Dockerfile-dev .
+        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile-dev .
 
       # 4. 初期化SQLの実行
       - name: Initialize database
@@ -66,7 +64,7 @@ jobs:
           ignore-unfixed: true
 
       # 6. unitテストの実行(コンテナ内)
-      - name: Run tests
+      - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:main \

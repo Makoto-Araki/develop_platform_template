@@ -44,9 +44,7 @@ jobs:
 
       # 3. DockerイメージをCI用にビルド
       - name: Build image for CI
-        run: docker build \
-          -t develop_platform_template_image:ci \
-          -f .devcontainer/Dockerfile-dev .
+        run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
       # 4. 初期化SQLの実行
       - name: Initialize database
@@ -56,7 +54,7 @@ jobs:
             -ptest_password test_db < test/integration/mysql/init/01_init.sql
 
       # 5. unitテストの実行(コンテナ内)
-      - name: Run tests
+      - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:ci \
