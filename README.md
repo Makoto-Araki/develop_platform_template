@@ -1,3 +1,7 @@
+![PR Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/pull_request_ci.yml/badge.svg)
+![Main Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/main_ci.yml/badge.svg)
+![Release Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/release.yml/badge.svg)
+
 # develop_platform_template 開発用テンプレート
 
 ## 目的
@@ -6,6 +10,7 @@
 ## 開発履歴
 | 日付       | バージョン | 説明                         |
 | ---------- | --------- | --------------------------- |
+| 2026/03/16 | 0.7.0     | MySQLのテスト項目追加        |
 | 2026/03/15 | 0.6.0     | MySQLのIntegrationテスト実装 |
 | 2026/03/14 | 0.5.0     | MySQLからデータ取得機能を実装 |
 | 2026/03/14 | 0.4.0     | JSONファイルのロード関数追加  |
