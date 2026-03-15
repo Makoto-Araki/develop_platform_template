@@ -1,6 +1,6 @@
-![PR Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/pull_request_ci.yml/badge.svg)
-![Main Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/main_ci.yml/badge.svg)
-![Release Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/release.yml/badge.svg)
+![PR Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/pull_request_ci.yaml/badge.svg)
+![Main Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/main_ci.yaml/badge.svg)
+![Release Status](https://github.com/Makoto-Araki/develop_platform_template/actions/workflows/release.yaml/badge.svg)
 
 # develop_platform_template 開発用テンプレート
 
