@@ -1,3 +1,4 @@
 pandas
 jaconv
 pykakasi
+mysql-connector-python

@@ -1,5 +1,6 @@
 import pandas as pd
 import mysql.connector
+import os
 
 # --------------------------------------------------
 # MySQLゲートウェイ層
@@ -29,6 +30,11 @@ class MySQLGateway:
             なし
         """
 
+        env_host = os.getenv("DB_HOST")
+
+        if env_host:
+            config["host"] = env_host
+
         self.config = config
 
     def execute_query(self, sql: str) -> pd.DataFrame:
@@ -53,7 +59,7 @@ class MySQLGateway:
             cursor.execute(sql)
 
             rows = cursor.fetchall()
-            columns = cursor.columns_names
+            columns = cursor.column_names
 
             df = pd.DataFrame(rows, columns=columns)
             return df
