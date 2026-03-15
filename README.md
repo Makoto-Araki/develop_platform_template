@@ -6,6 +6,7 @@
 ## 開発履歴
 | 日付       | バージョン | 説明                         |
 | ---------- | --------- | --------------------------- |
+| 2026/03/15 | 0.6.0     | MySQLのIntegrationテスト実装 |
 | 2026/03/14 | 0.5.0     | MySQLからデータ取得機能を実装 |
 | 2026/03/14 | 0.4.0     | JSONファイルのロード関数追加  |
 | 2026/03/14 | 0.3.0     | CI/CD導入                   |
@@ -52,11 +53,23 @@ $ git remote add origin git@github.com:Makoto-Araki/develop_platform_template.gi
 ## Githubのリモートリポジトリからクローン
 $ git clone git@github.com:Makoto-Araki/develop_platform_template.git
 
+## DBコンテナ起動 => MySQL関連のintegrationテスト実行時に使用
+$ docker compose up -d db
+
 ## VSCode起動 => DevContainer起動時に環境構築、DevContainer起動後に開発作業
 $ code .
 
-## DevContainer内でテスト実行
-$ pytest
+## DevContainer内で全テスト実行
+$ python -m pytest
+
+## DevContainer内でunitテスト実行
+$ python -m pytest test/unit
+
+## DevContainer内でintegrationテスト実行
+$ python -m pytest test/integration
+
+## DBコンテナ停止 => MySQL関連のintegrationテスト実行時に使用
+$ docker compose down -v
 ```
 
 ### 手動デプロイ
@@ -114,11 +127,23 @@ $ git checkout -b feature/*******
 ## 開発用ブランチ確認
 $ git branch
 
+## DBコンテナ起動 => MySQL関連のintegrationテスト実行時に使用
+$ docker compose up -d db
+
 ## VSCode起動 => DevContainer起動時に環境構築、DevContainer起動後に開発作業
 $ code .
 
-## DevContainer内でテスト実行
-$ pytest
+## DevContainer内で全テスト実行
+$ python -m pytest
+
+## DevContainer内でunitテスト実行
+$ python -m pytest test/unit
+
+## DevContainer内でintegrationテスト実行
+$ python -m pytest test/integration
+
+## DBコンテナ停止 => MySQL関連のintegrationテスト実行時に使用
+$ docker compose down -v
 
 ## ステージング移行
 $ git add .

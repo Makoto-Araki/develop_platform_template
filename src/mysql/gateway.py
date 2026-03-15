@@ -53,7 +53,7 @@ class MySQLGateway:
             cursor.execute(sql)
 
             rows = cursor.fetchall()
-            columns = cursor.columns_names
+            columns = cursor.column_names
 
             df = pd.DataFrame(rows, columns=columns)
             return df

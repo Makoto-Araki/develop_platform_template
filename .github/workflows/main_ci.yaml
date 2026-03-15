@@ -15,18 +15,47 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    # MySQLサービスコンテナの定義
+    services:
+      db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        ports:
+          - 3306:3306
+        # MySQLが起動完了するまで待機する設定
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       # 1. ソースコード取得
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Dockerイメージを本番相当でビルド
-      - name: Build image
-        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile-dev .
+      # 2. データベース初期化用のクライアントをインストール
+      - name: Install mysql client
+        run: sudo apt-get update && sudo apt-get install -y mysql-client
 
-      # 3. 脆弱性スキャン
-      #    - main では必ずセキュリティを確認
+      # 3. Dockerイメージをビルド(Dockerfile-devを使用)
+      - name: Build image
+        run: docker build \
+          -t develop_platform_template_image:main \
+          -f .devcontainer/Dockerfile-dev .
+
+      # 4. 初期化SQLの実行
+      - name: Initialize database
+        run: |
+          mysql -h 127.0.0.1 \
+            -u test_user \
+            -ptest_password test_db < test/integration/mysql/init/01_init.sql
+
+      # 5. 脆弱性スキャン(セキュリティゲート)
       - name: Run vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -36,8 +65,18 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
 
-      # 4. テスト再実行（最終確認）
+      # 6. unitテストの実行(コンテナ内)
       - name: Run tests
         run: |
-          docker run --rm develop_platform_template_image:main \
-            python -m pytest -v
+          docker run --rm \
+            develop_platform_template_image:main \
+            python -m pytest test/unit -v
+
+      # 7. integrationテストの実行(コンテナ内)
+      - name: Run Integration Tests
+        run: |
+          docker run --rm \
+            --network host \
+            -e DB_HOST=127.0.0.1 \
+            develop_platform_template_image:main \
+            python -m pytest test/integration -v
