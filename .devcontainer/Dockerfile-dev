@@ -1,4 +1,4 @@
-FROM makotoaraki346/python_base_image:v1.1.0
+FROM makotoaraki346/python_base_image:v1.2.0
 
 # PIP更新
 RUN pip install --upgrade pip
