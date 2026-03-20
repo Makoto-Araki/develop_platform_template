@@ -10,6 +10,7 @@
 ## 開発履歴
 | 日付       | バージョン | 説明                                           |
 | ---------- | --------- | ---------------------------------------------- |
+| 2026/03/20 | 0.8.0     | コード品質向上のためRuff導入                     |
 | 2026/03/18 | 0.7.2     | ChromeとChromeDriverの存在確認をUnitテストに追加 |
 | 2026/03/17 | 0.7.1     | MySQL結合テスト用の初期化スクリプトの役割分担     |
 | 2026/03/16 | 0.7.0     | MySQLのテスト項目追加                           |
@@ -35,6 +36,12 @@
 - Dockerhubにアクセス可
 - WSL Terminal上で作業 (DevContainer内の作業も存在)
 - WSL Terminal上でkubectlが使用可能でKubernetesクラスタ接続可
+
+## コード品質管理(Ruff)
+- Ruffの設定はpyproject.tomlで一元管理
+- DevContainer内でコード保存時に自動フォーマットおよび修正
+- WSL Terminal上でgit commit時に自動チェック
+‐ Github ActionsのPR生成時にCIで最終チェック
 
 ## CI/CD導入前の開発手順
 ### 環境構築＋開発作業＋テスト実行

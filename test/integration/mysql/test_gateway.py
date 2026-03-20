@@ -7,8 +7,9 @@ execute_query
 """
 
 import pytest
-import os
-from src.mysql.gateway import MySQLGateway 
+
+from src.mysql.gateway import MySQLGateway
+
 
 class TestUserIntegration:
     """
@@ -42,7 +43,7 @@ class TestUserIntegration:
             "host": "host.docker.internal",
             "user": "test_user",
             "password": "test_password",
-            "database": "test_db"
+            "database": "test_db",
         }
 
         self.gateway = MySQLGateway(self.db_config)

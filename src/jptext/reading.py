@@ -1,5 +1,7 @@
-from pykakasi import kakasi
 import re
+
+from pykakasi import kakasi
+
 
 # --------------------------------------------------
 # 日本語文字列を読み仮名に変換
@@ -29,12 +31,12 @@ def to_hiragana(text: str) -> str:
     """
 
     if not isinstance(text, str):
-        raise TypeError('text must be str')
+        raise TypeError("text must be str")
 
     _ASCII_PATTERN = re.compile(r"[A-Za-z0-9]")
 
     if _ASCII_PATTERN.search(text):
-        raise TypeError('text must not contain ASCII letters or digits')
+        raise TypeError("text must not contain ASCII letters or digits")
 
     kks = kakasi()
     result = kks.convert(text)

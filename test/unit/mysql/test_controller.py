@@ -7,7 +7,9 @@ get_users
 """
 
 import pandas as pd
+
 from src.mysql.controller import UserController
+
 
 class MockService:
     """
@@ -34,13 +36,13 @@ class MockService:
             モックされたデータフレーム
         """
 
-        return pd.DataFrame([
-            {"id": 1, "name": "Alice", "age": 30}
-        ])
+        return pd.DataFrame([{"id": 1, "name": "Alice", "age": 30}])
+
 
 # --------------------------------------------------
 # MySQLコントローラ層テスト
 # --------------------------------------------------
+
 
 def test_controller_get_users():
     service = MockService()
