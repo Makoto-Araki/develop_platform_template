@@ -7,7 +7,9 @@ get_users
 """
 
 import pandas as pd
+
 from src.mysql.service import UserService
+
 
 class MockGateway:
     """
@@ -34,14 +36,15 @@ class MockGateway:
             モックされたデータフレーム
         """
 
-        return pd.DataFrame([
-            {"id": 1, "name": "Alice", "age": 30},
-            {"id": 2, "name": "Bob", "age": 25}
-        ])
+        return pd.DataFrame(
+            [{"id": 1, "name": "Alice", "age": 30}, {"id": 2, "name": "Bob", "age": 25}]
+        )
+
 
 # --------------------------------------------------
 # MySQLサービス層テスト
 # --------------------------------------------------
+
 
 def test_get_users():
     gateway = MockGateway()

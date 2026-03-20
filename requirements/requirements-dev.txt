@@ -2,4 +2,5 @@ pandas
 jaconv
 pykakasi
 mysql-connector-python
+ruff
 pytest

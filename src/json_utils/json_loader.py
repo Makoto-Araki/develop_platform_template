@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+
 # --------------------------------------------------
 # JSONファイルを読み込み辞書に変換する
 # --------------------------------------------------
@@ -27,12 +28,13 @@ def load_json_to_dict(file_path: str) -> dict:
     """
 
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             return json.load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"ファイルが見つかりません: {file_path}")
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"ファイルが見つかりません: {file_path}") from e
     except json.JSONDecodeError as e:
-        raise ValueError(f"JSONの解析に失敗しました: {e}")
+        raise ValueError(f"JSONの解析に失敗しました: {e}") from e
+
 
 # --------------------------------------------------
 # フォルダ内のJSONファイルを辞書リストで返す
@@ -65,7 +67,7 @@ def load_jsons_from_directory(dir_path: str) -> list[dict]:
     result: list[dict] = []
 
     for json_file in path.glob("*.json"):
-        data = load_json_to_dict(json_file)
+        data = load_json_to_dict(str(json_file))
         result.append(data)
 
     return result

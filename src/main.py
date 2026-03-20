@@ -1,3 +1,7 @@
+import os
+import sys
+
+
 # --------------------------------------------------
 # メインクラス
 # --------------------------------------------------
@@ -27,6 +31,9 @@ class Main:
         """
 
         print("Hello")
+        print(os.listdir("jptext"))
+        print(sys.version)
+
 
 if __name__ == "__main__":
     main = Main()

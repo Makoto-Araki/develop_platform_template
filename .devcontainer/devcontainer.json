@@ -4,5 +4,20 @@
         "dockerfile": "Dockerfile-dev",
         "context": ".."
     },
-    "workspaceFolder": "/workspaces/develop_platform_template"
+    "workspaceFolder": "/workspaces/develop_platform_template",
+    "postCreateCommand": "pip install -r requirements/requirements-dev.txt",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "charliermarsh.ruff"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "charliermarsh.ruff",
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.ruff": true
+                }
+            }
+        }
+    }
 }

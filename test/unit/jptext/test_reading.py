@@ -11,53 +11,52 @@ to_hiragana
 """
 
 import pytest
+
 from src.jptext.reading import to_hiragana
 
 # --------------------------------------------------
 # to_hiraganaテスト
 # --------------------------------------------------
 
+
 @pytest.mark.parametrize(
-    'a, expected',
+    "a, expected",
     [
-        ('祇園精舎の鐘の声', 'ぎおんしょうじゃのかねのこえ'),
-        ('ユーラシア大陸', 'ゆーらしあたいりく'),
-        ('神聖ローマ帝国', 'しんせいろーまていこく'),
-        ('ティラノサウルス', 'てぃらのさうるす'),
-        ('貸借対照表', 'たいしゃくたいしょうひょう'),
-        ('パース造幣局', 'ぱーすぞうへいきょく'),
-        ('ポルトガル', 'ぽるとがる'),
-    ]
+        ("祇園精舎の鐘の声", "ぎおんしょうじゃのかねのこえ"),
+        ("ユーラシア大陸", "ゆーらしあたいりく"),
+        ("神聖ローマ帝国", "しんせいろーまていこく"),
+        ("ティラノサウルス", "てぃらのさうるす"),
+        ("貸借対照表", "たいしゃくたいしょうひょう"),
+        ("パース造幣局", "ぱーすぞうへいきょく"),
+        ("ポルトガル", "ぽるとがる"),
+    ],
 )
 def test_to_hiragana_success_behavior(a, expected):
     assert expected == to_hiragana(a)
 
+
 @pytest.mark.parametrize(
-    'a',
+    "a",
     [
         (100),
         (3.4),
         (True),
-        (['月', '火', '水']),
-        (('月', '火', '水')),
-        ({"名前": '田中'}),
-        (None)
-    ]
+        (["月", "火", "水"]),
+        (("月", "火", "水")),
+        ({"名前": "田中"}),
+        (None),
+    ],
 )
 def test_to_hiragana_type_error_behavior(a):
-    with pytest.raises(TypeError, match='text must be str'):
+    with pytest.raises(TypeError, match="text must be str"):
         to_hiragana(a)
 
+
 @pytest.mark.parametrize(
-    'a',
-    [
-        ('100回'),
-        ('素振り100回'),
-        ('アップル100'),
-        ('0.5キロ'),
-        ('円周率3.14')
-    ]
+    "a", [("100回"), ("素振り100回"), ("アップル100"), ("0.5キロ"), ("円周率3.14")]
 )
 def test_to_hiragana_contain_error_behavior(a):
-    with pytest.raises(TypeError, match='text must not contain ASCII letters or digits'):
+    with pytest.raises(
+        TypeError, match="text must not contain ASCII letters or digits"
+    ):
         to_hiragana(a)

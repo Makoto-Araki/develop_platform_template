@@ -19,22 +19,18 @@ load_jsons_from_directory
 """
 
 import json
+
 import pytest
-from src.json_utils.json_loader import (
-    load_json_to_dict,
-    load_jsons_from_directory
-)
+
+from src.json_utils.json_loader import load_json_to_dict, load_jsons_from_directory
 
 # --------------------------------------------------
 # load_json_to_dictテスト
 # --------------------------------------------------
 
-def test_load_json_to_dict_success(tmp_path):
 
-    test_data = {
-        "name": "Alice",
-        "age": 30
-    }
+def test_load_json_to_dict_success(tmp_path):
+    test_data = {"name": "Alice", "age": 30}
 
     file_path = tmp_path / "test.json"
     file_path.write_text(json.dumps(test_data), encoding="utf-8")
@@ -42,31 +38,28 @@ def test_load_json_to_dict_success(tmp_path):
 
     assert result == test_data
 
+
 def test_load_json_to_dict_file_not_found():
     with pytest.raises(FileNotFoundError):
         load_json_to_dict("not_exist.json")
 
-def test_load_json_to_dict_invalid_json(tmp_path):
 
+def test_load_json_to_dict_invalid_json(tmp_path):
     file_path = tmp_path / "invalid.json"
     file_path.write_text("{invalid json}", encoding="utf-8")
 
     with pytest.raises(ValueError):
         load_json_to_dict(file_path)
 
+
 # --------------------------------------------------
 # load_jsons_from_directoryテスト
 # --------------------------------------------------
 
+
 def test_load_jsons_from_directory_success(tmp_path):
-    data1 = {
-        "name": "Alice",
-        "age": 30
-    }
-    data2 = {
-        "name": "Bob",
-        "age": 25
-    }
+    data1 = {"name": "Alice", "age": 30}
+    data2 = {"name": "Bob", "age": 25}
 
     file1 = tmp_path / "a.json"
     file2 = tmp_path / "b.json"
@@ -80,15 +73,14 @@ def test_load_jsons_from_directory_success(tmp_path):
     assert data2 in result
     assert len(result) == 2
 
+
 def test_load_jsons_from_directory_not_found():
     with pytest.raises(FileNotFoundError):
         load_jsons_from_directory("not_exist_dir")
 
+
 def test_load_jsons_from_directory_ignore_non_json(tmp_path):
-    data = {
-        "name": "Alice",
-        "age": 30
-    }
+    data = {"name": "Alice", "age": 30}
 
     json_file = tmp_path / "data.json"
     txt_file = tmp_path / "data.txt"

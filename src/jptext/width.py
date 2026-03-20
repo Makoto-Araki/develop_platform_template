@@ -1,5 +1,6 @@
 import jaconv
 
+
 # --------------------------------------------------
 # 日本語文字列を半角に正規化
 # --------------------------------------------------
@@ -26,6 +27,6 @@ def to_half_width(text: str) -> str:
     """
 
     if not isinstance(text, str):
-        raise TypeError('text must be str')
+        raise TypeError("text must be str")
 
     return jaconv.z2h(text, kana=True, ascii=True, digit=True)

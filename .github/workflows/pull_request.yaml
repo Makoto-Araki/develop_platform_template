@@ -38,15 +38,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. データベース初期化用のクライアントをインストール
+      # 2. Pythonインストール
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Ruffインストール
+      - name: Install Ruff
+        run: pip install ruff
+
+      # 4. Ruffチェック
+      - name: Run Ruff (Lint)
+        run: ruff check .
+
+      # 5. Ruff修正
+      - name: Check formatting
+        run: ruff format . --check
+
+      # 6. データベース初期化用のクライアントをインストール
       - name: Install mysql client
         run: sudo apt-get update && sudo apt-get install -y mysql-client
 
-      # 3. DockerイメージをCI用にビルド
+      # 7. DockerイメージをCI用にビルド
       - name: Build image for CI
         run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
-      # 4. 初期化SQLの実行
+      # 8. 初期化SQLの実行
       - name: Initialize database
         run: |
           set -e
@@ -57,14 +75,14 @@ jobs:
               -ptest_password test_db < $file
           done
 
-      # 5. unitテストの実行(コンテナ内)
+      # 9. unitテストの実行(コンテナ内)
       - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:ci \
             python -m pytest test/unit -v
 
-      # 6. integrationテストの実行(コンテナ内)
+      # 10. integrationテストの実行(コンテナ内)
       - name: Run Integration Tests
         run: |
           docker run --rm \
