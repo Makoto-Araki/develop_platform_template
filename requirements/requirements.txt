@@ -2,3 +2,4 @@ pandas
 jaconv
 pykakasi
 mysql-connector-python
+sqlalchemy

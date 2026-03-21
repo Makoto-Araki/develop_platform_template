@@ -1,8 +1,7 @@
 import os
 
-import pandas as pd
-
-import mysql.connector
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
 
 # --------------------------------------------------
@@ -14,8 +13,8 @@ class MySQLGateway:
 
     Methods
     -------
-    execute_query
-        SQL実行を行いデータフレームを返す
+    get_session
+        MySQLセッションを返す
     """
 
     def __init__(self, config: dict) -> None:
@@ -34,39 +33,31 @@ class MySQLGateway:
         """
 
         env_host = os.getenv("DB_HOST")
-
         if env_host:
             config["host"] = env_host
 
         self.config = config
 
-    def execute_query(self, sql: str) -> pd.DataFrame:
+        self.engine = create_engine(
+            f"mysql+mysqlconnector://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}",
+            echo=False,
+        )
+
+        self.SessionLocal = sessionmaker(bind=self.engine)
+
+    def get_session(self) -> Session:
         """
-        SQL実行を行いデータフレームを返す
+        MySQLセッションを返す
 
         Parameters
         -------
-        sql
-            実行するSQL文
+        none
+            なし
 
         Returns
         -------
-        pd.DataFrame
-            MySQL取得データのデータフレーム
+        Session
+            MySQLセッション
         """
 
-        conn = mysql.connector.connect(**self.config)
-
-        try:
-            cursor = conn.cursor()
-            cursor.execute(sql)
-
-            rows = cursor.fetchall()
-            columns = cursor.column_names
-
-            df = pd.DataFrame(rows, columns=columns)
-            return df
-
-        finally:
-            cursor.close()
-            conn.close()
+        return self.SessionLocal()

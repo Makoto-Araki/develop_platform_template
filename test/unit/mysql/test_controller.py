@@ -1,54 +1,88 @@
-"""
-controller モジュールの単体テスト
-
-get_users
-1. 正常系テスト
-    データフレームが返されることを確認
-"""
+from unittest.mock import MagicMock
 
 import pandas as pd
 
-from src.mysql.controller import UserController
+from src.mysql.controller import DepartmentController, UserController
 
 
-class MockService:
+def test_get_all_users():
     """
-    MySQLサービス層のモック
-
-    Methods
-    -------
-    get_users
-        サービス層の実行結果をモック
+    全ユーザー情報取得のテスト
     """
 
-    def get_users(self):
-        """
-        SQL実行を行いデータフレームを返す
+    mock_service = MagicMock()
 
-        Parameters
-        -------
-        sql
-            実行するSQL文
+    expected = pd.DataFrame(
+        [{"id": 1, "name": "Alice", "email": "alice@test.com", "department_id": 1}]
+    )
 
-        Returns
-        -------
-        pd.DataFrame
-            モックされたデータフレーム
-        """
+    mock_service.get_all_users.return_value = expected
 
-        return pd.DataFrame([{"id": 1, "name": "Alice", "age": 30}])
+    controller = UserController(mock_service)
+
+    df = controller.get_all_users()
+
+    assert df.equals(expected)
 
 
-# --------------------------------------------------
-# MySQLコントローラ層テスト
-# --------------------------------------------------
+def test_get_one_user_by_id():
+    """
+    指定IDのユーザー情報取得のテスト
+    """
+
+    mock_service = MagicMock()
+
+    expected = pd.DataFrame(
+        [{"id": 1, "name": "Alice", "email": "alice@test.com", "department_id": 1}]
+    )
+
+    mock_service.get_one_user_by_id.return_value = expected
+
+    controller = UserController(mock_service)
+
+    df = controller.get_one_user_by_id(1)
+
+    assert df.equals(expected)
 
 
-def test_controller_get_users():
-    service = MockService()
-    controller = UserController(service)
-    df = controller.get_users()
+def test_get_all_departments():
+    """
+    全部門情報取得のテスト
+    """
 
-    assert len(df) == 1
-    assert df.iloc[0]["name"] == "Alice"
-    assert df.iloc[0]["age"] == 30
+    mock_service = MagicMock()
+
+    expected = pd.DataFrame(
+        [
+            {"id": 1, "name": "経営"},
+            {"id": 2, "name": "総務"},
+            {"id": 3, "name": "経理"},
+            {"id": 4, "name": "営業"},
+        ]
+    )
+
+    mock_service.get_all_departments.return_value = expected
+
+    controller = DepartmentController(mock_service)
+
+    df = controller.get_all_departments()
+
+    assert df.equals(expected)
+
+
+def test_get_one_department_by_id():
+    """
+    指定IDの部門情報取得のテスト
+    """
+
+    mock_service = MagicMock()
+
+    expected = pd.DataFrame([{"id": 1, "name": "経営"}])
+
+    mock_service.get_one_department_by_id.return_value = expected
+
+    controller = DepartmentController(mock_service)
+
+    df = controller.get_one_department_by_id(1)
+
+    assert df.equals(expected)

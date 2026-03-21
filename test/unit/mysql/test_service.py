@@ -1,56 +1,141 @@
-"""
-service モジュールの単体テスト
-
-get_users
-1. 正常系テスト
-    データフレームが返されることを確認
-"""
+from unittest.mock import MagicMock
 
 import pandas as pd
 
-from src.mysql.service import UserService
+from src.mysql.service import DepartmentService, UserService
 
 
-class MockGateway:
+class DummyUser:
     """
-    MySQLゲートウェイ層のモック
-
-    Methods
-    -------
-    execute_query
-        ゲートウェイ層の実行結果をモック
+    ダミー情報のクラス定義
     """
 
-    def execute_query(self, sql) -> pd.DataFrame:
-        """
-        SQL実行を行いデータフレームを返す
-
-        Parameters
-        -------
-        sql
-            実行するSQL文
-
-        Returns
-        -------
-        pd.DataFrame
-            モックされたデータフレーム
-        """
-
-        return pd.DataFrame(
-            [{"id": 1, "name": "Alice", "age": 30}, {"id": 2, "name": "Bob", "age": 25}]
-        )
+    def __init__(self, id, name, email, department_id):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.department_id = department_id
 
 
-# --------------------------------------------------
-# MySQLサービス層テスト
-# --------------------------------------------------
+class DummyDepartment:
+    """
+    ダミー情報のクラス定義
+    """
+
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
 
-def test_get_users():
-    gateway = MockGateway()
+def create_mock_user_gateway(users):
+    """
+    モック作成
+    """
+
+    session = MagicMock()
+    result = MagicMock()
+    result.scalars.return_value.all.return_value = users
+    session.execute.return_value = result
+    gateway = MagicMock()
+    gateway.get_session.return_value = session
+
+    return gateway, session
+
+
+def test_get_all_users():
+    """
+    全ユーザー情報取得のテスト
+    """
+
+    users = [
+        DummyUser(1, "Alice", "alice@test.com", 1),
+        DummyUser(2, "Bob", "bob@test.com", 2),
+    ]
+
+    gateway, session = create_mock_user_gateway(users)
     service = UserService(gateway)
-    df = service.get_users()
+    df = service.get_all_users()
 
+    assert isinstance(df, pd.DataFrame)
     assert len(df) == 2
+    assert list(df.columns) == ["id", "name", "email", "department_id"]
+    assert df.iloc[0]["email"] == "alice@test.com"
+
+    session.close.assert_called_once()
+
+
+def test_get_one_user_by_id():
+    """
+    指定IDのユーザー情報取得のテスト
+    """
+
+    users = [
+        DummyUser(1, "Alice", "alice@test.com", 1),
+    ]
+
+    gateway, session = create_mock_user_gateway(users)
+    service = UserService(gateway)
+    df = service.get_one_user_by_id(1)
+
+    assert len(df) == 1
+    assert df.iloc[0]["id"] == 1
     assert df.iloc[0]["name"] == "Alice"
-    assert df.iloc[0]["age"] == 30
+
+    session.close.assert_called_once()
+
+
+def create_mock_department_gateway(departments):
+    """
+    モック作成
+    """
+
+    session = MagicMock()
+    result = MagicMock()
+    result.scalars.return_value.all.return_value = departments
+    session.execute.return_value = result
+    gateway = MagicMock()
+    gateway.get_session.return_value = session
+
+    return gateway, session
+
+
+def test_get_all_departments():
+    """
+    全部門情報取得のテスト
+    """
+
+    departments = [
+        DummyDepartment(1, "経営"),
+        DummyDepartment(2, "総務"),
+    ]
+
+    gateway, session = create_mock_department_gateway(departments)
+    service = DepartmentService(gateway)
+    df = service.get_all_departments()
+
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == 2
+    assert list(df.columns) == ["id", "name"]
+    assert df.iloc[0]["name"] == "経営"
+
+    session.close.assert_called_once()
+
+
+def test_get_one_department_by_id():
+    """
+    指定IDの部門情報取得のテスト
+    """
+
+    departments = [
+        DummyDepartment(1, "経営"),
+    ]
+
+    gateway, session = create_mock_department_gateway(departments)
+    service = DepartmentService(gateway)
+    df = service.get_one_department_by_id(1)
+
+    assert len(df) == 1
+    assert df.iloc[0]["id"] == 1
+    assert df.iloc[0]["name"] == "経営"
+
+    session.close.assert_called_once()
