@@ -35,10 +35,10 @@ def seeded_gateway(gateway):
 
     session.add_all(
         [
-            User(id=1, name="Alice", email="alice@test.com", department_id=1),
-            User(id=2, name="Bob", email="bob@test.com", department_id=2),
             Department(id=1, name="経営"),
             Department(id=2, name="総務"),
+            User(id=1, name="Alice", email="alice@test.com", department_id=1),
+            User(id=2, name="Bob", email="bob@test.com", department_id=2),
         ]
     )
 
@@ -64,6 +64,36 @@ def test_get_all_users_integration(seeded_gateway):
     }
 
 
+def test_get_all_users_with_department_integration(seeded_gateway):
+    """
+    全ユーザー情報を部門情報を付与して取得のテスト
+    """
+
+    service = UserService(seeded_gateway)
+    df = service.get_all_users_with_department()
+
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == 2
+    assert "department_name" in df.columns
+    assert df.iloc[0]["department_name"] == "経営"
+    assert df.iloc[1]["department_name"] == "総務"
+
+
+def test_get_all_users_with_department_like_sql_integration(seeded_gateway):
+    """
+    全ユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+    """
+
+    service = UserService(seeded_gateway)
+    df = service.get_all_users_with_department_like_sql()
+
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == 2
+    assert "department_name" in df.columns
+    assert df.iloc[0]["department_name"] == "経営"
+    assert df.iloc[1]["department_name"] == "総務"
+
+
 def test_get_one_user_by_id_integration(seeded_gateway):
     """
     指定IDのユーザー情報取得のテスト
@@ -74,7 +104,34 @@ def test_get_one_user_by_id_integration(seeded_gateway):
 
     assert len(df) == 1
     assert df.iloc[0]["name"] == "Alice"
+
+
+def test_get_one_user_with_department_by_id_integration(seeded_gateway):
+    """
+    指定IDのユーザー情報を部門情報を付与して取得のテスト
+    """
+
+    service = UserService(seeded_gateway)
+    df = service.get_one_user_with_department_by_id(1)
+
+    assert len(df) == 1
+    assert df.iloc[0]["name"] == "Alice"
     assert df.iloc[0]["email"] == "alice@test.com"
+    assert df.iloc[0]["department_name"] == "経営"
+
+
+def test_get_one_user_with_department_like_sql_by_id_integration(seeded_gateway):
+    """
+    指定IDのユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+    """
+
+    service = UserService(seeded_gateway)
+    df = service.get_one_user_with_department_like_sql_by_id(1)
+
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == 1
+    assert "department_name" in df.columns
+    assert df.iloc[0]["department_name"] == "経営"
 
 
 def test_get_all_departments_integration(seeded_gateway):
