@@ -23,7 +23,7 @@ jobs:
 
       # 2. Dockerイメージをビルド(Dockerfile-devを使用)
       - name: Build image
-        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile-dev .
+        run: docker build -t develop_platform_template_image:main -f .devcontainer/Dockerfile .
 
       # 3. 脆弱性スキャン(セキュリティゲート)
       - name: Run vulnerability scan
