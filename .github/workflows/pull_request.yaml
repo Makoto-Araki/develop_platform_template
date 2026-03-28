@@ -39,18 +39,26 @@ jobs:
       - name: Check formatting
         run: ruff format . --check
 
-      # 6. DockerイメージをCI用にビルド
+      # 6. mypyインストール
+      - name: Install mypy
+        run: pip install mypy
+
+      # 7. mypy型チェック
+      - name: Run mypy
+        run: mypy src
+
+      # 8. DockerイメージをCI用にビルド
       - name: Build image for CI
         run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
-      # 7. unitテストの実行(コンテナ内)
+      # 9. unitテストの実行(コンテナ内)
       - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:ci \
             python -m pytest test/unit -v
 
-      # 8. integrationテストの実行(コンテナ内)
+      # 10. integrationテストの実行(コンテナ内)
       - name: Run Integration Tests
         run: |
           docker run --rm \

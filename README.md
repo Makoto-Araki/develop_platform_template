@@ -10,6 +10,7 @@
 ## 開発履歴
 | 日付       | バージョン | 説明                                           |
 | ---------- | --------- | ---------------------------------------------- |
+| 2026/03/28 | 0.11.0    | mypy導入(静的型チェックによる品質向上)            |
 | 2026/03/22 | 0.10.0    | テーブル結合の処理追加                           | 
 | 2026/03/21 | 0.9.0     | SQL文をORMモデルに変更                          |
 | 2026/03/20 | 0.8.0     | コード品質向上のためRuff導入                     |
@@ -45,6 +46,12 @@
 - WSL Terminal上でgit commit時に自動チェック
 ‐ Github ActionsのPR生成時にCIで最終チェック
 
+### 静的型チェック(mypy)
+- DevContainer内で型チェックを実行
+- PR時にCIで型整合性を検証
+- 実行前に型不整合を検出し、バグを未然に防止
+- 型チェック対象はsrcディレクトリ配下(アプリケーションコードのみ対象)
+
 ## CI/CD導入前の開発手順
 ### 環境構築＋開発作業＋テスト実行
 - リモートリポジトリ名とローカルリポジトリ名を同名にしている
@@ -69,11 +76,17 @@ $ git remote add origin git@github.com:Makoto-Araki/develop_platform_template.gi
 ## Githubのリモートリポジトリからクローン
 $ git clone git@github.com:Makoto-Araki/develop_platform_template.git
 
-## DBコンテナ起動 => MySQL関連のintegrationテスト実行時に使用
-$ docker compose up -d db
-
 ## VSCode起動 => DevContainer起動時に環境構築、DevContainer起動後に開発作業
 $ code .
+
+## DevContainer内でRuffチェック
+$ ruff check .
+
+## DevContainer内でRuff修正
+$ ruff format . --check
+
+## DevContainer内でmypy型チェック
+$ mypy src
 
 ## DevContainer内で全テスト実行
 $ python -m pytest
@@ -83,9 +96,6 @@ $ python -m pytest test/unit
 
 ## DevContainer内でintegrationテスト実行
 $ python -m pytest test/integration
-
-## DBコンテナ停止 => MySQL関連のintegrationテスト実行時に使用
-$ docker compose down -v
 ```
 
 ### 手動デプロイ
@@ -143,11 +153,17 @@ $ git checkout -b feature/*******
 ## 開発用ブランチ確認
 $ git branch
 
-## DBコンテナ起動 => MySQL関連のintegrationテスト実行時に使用
-$ docker compose up -d db
-
 ## VSCode起動 => DevContainer起動時に環境構築、DevContainer起動後に開発作業
 $ code .
+
+## DevContainer内でRuffチェック
+$ ruff check .
+
+## DevContainer内でRuff修正
+$ ruff format . --check
+
+## DevContainer内でmypy型チェック
+$ mypy src
 
 ## DevContainer内で全テスト実行
 $ python -m pytest
@@ -157,9 +173,6 @@ $ python -m pytest test/unit
 
 ## DevContainer内でintegrationテスト実行
 $ python -m pytest test/integration
-
-## DBコンテナ停止 => MySQL関連のintegrationテスト実行時に使用
-$ docker compose down -v
 
 ## ステージング移行
 $ git add .
