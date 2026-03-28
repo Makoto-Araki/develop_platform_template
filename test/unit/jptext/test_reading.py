@@ -1,26 +1,10 @@
-"""
-reading モジュールの単体テスト
-
-to_hiragana
-1. 正常系テスト
-    日本語文字列が正しく平仮名へ変換されること
-2. 異常系テスト
-    引数の text がstr型でない場合にTypeError例外発生
-3. 異常系テスト
-    引数の text にASCII文字が含まれている場合にTypeError例外発生
-"""
-
 import pytest
 
 from src.jptext.reading import to_hiragana
 
-# --------------------------------------------------
-# to_hiraganaテスト
-# --------------------------------------------------
-
 
 @pytest.mark.parametrize(
-    "a, expected",
+    "data, expected",
     [
         ("祇園精舎の鐘の声", "ぎおんしょうじゃのかねのこえ"),
         ("ユーラシア大陸", "ゆーらしあたいりく"),
@@ -31,12 +15,28 @@ from src.jptext.reading import to_hiragana
         ("ポルトガル", "ぽるとがる"),
     ],
 )
-def test_to_hiragana_success_behavior(a, expected):
-    assert expected == to_hiragana(a)
+def test_to_hiragana_success_behavior(data, expected):
+    """
+    日本語文字列の平仮名変換のテスト
+
+    Parameters
+    -------
+    data
+        日本語文字列
+    expected
+        正しいテスト結果
+
+    Returns
+    -------
+    None
+        なし
+    """
+
+    assert expected == to_hiragana(data)
 
 
 @pytest.mark.parametrize(
-    "a",
+    "data",
     [
         (100),
         (3.4),
@@ -47,16 +47,54 @@ def test_to_hiragana_success_behavior(a, expected):
         (None),
     ],
 )
-def test_to_hiragana_type_error_behavior(a):
+def test_to_hiragana_type_error_behavior(data):
+    """
+    日本語文字列の平仮名変換でエラー発生テスト
+
+    Parameters
+    -------
+    data
+        エラー発生用データ
+
+    Returns
+    -------
+    None
+        なし
+
+    Raises
+    -------
+    TypeError
+        エラーメッセージ表示
+    """
+
     with pytest.raises(TypeError, match="text must be str"):
-        to_hiragana(a)
+        to_hiragana(data)
 
 
 @pytest.mark.parametrize(
-    "a", [("100回"), ("素振り100回"), ("アップル100"), ("0.5キロ"), ("円周率3.14")]
+    "data", [("100回"), ("素振り100回"), ("アップル100"), ("0.5キロ"), ("円周率3.14")]
 )
-def test_to_hiragana_contain_error_behavior(a):
+def test_to_hiragana_contain_error_behavior(data):
+    """
+    日本語文字列の平仮名変換でエラー発生テスト
+
+    Parameters
+    -------
+    data
+        エラー発生用データ
+
+    Returns
+    -------
+    None
+        なし
+
+    Raises
+    -------
+    TypeError
+        エラーメッセージ表示
+    """
+
     with pytest.raises(
         TypeError, match="text must not contain ASCII letters or digits"
     ):
-        to_hiragana(a)
+        to_hiragana(data)

@@ -40,13 +40,13 @@
 - WSL Terminal上で作業 (DevContainer内の作業も存在)
 - WSL Terminal上でkubectlが使用可能でKubernetesクラスタ接続可
 
-## コード品質管理(Ruff)
+## コード品質管理 (Ruff)
 - Ruffの設定はpyproject.tomlで一元管理
 - DevContainer内でコード保存時に自動フォーマットおよび修正
 - WSL Terminal上でgit commit時に自動チェック
-‐ Github ActionsのPR生成時にCIで最終チェック
+‐ PR生成時にCIで最終チェック
 
-### 静的型チェック(mypy)
+## 静的型チェック (mypy)
 - DevContainer内で型チェックを実行
 - PR時にCIで型整合性を検証
 - 実行前に型不整合を検出し、バグを未然に防止

@@ -11,6 +11,18 @@ from src.mysql.service import DepartmentService, UserService
 def gateway():
     """
     ゲートウェイ準備
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    Gateway
+        get_sessionというメソッドを持つオブジェクト
+    SessionLocal
+        データベースへのセッション情報
     """
 
     engine = create_engine("sqlite:///:memory:")
@@ -27,7 +39,17 @@ def gateway():
 @pytest.fixture
 def seeded_gateway(gateway):
     """
-    ゲートウェイからデータ登録
+    テストデータ登録
+
+    Parameters
+    -------
+    gateway
+        上記fixtureのgateway
+
+    Returns
+    -------
+    gateway_obj
+        上記fixtureのgateway
     """
 
     gateway_obj, SessionLocal = gateway
@@ -51,6 +73,16 @@ def seeded_gateway(gateway):
 def test_get_all_users_integration(seeded_gateway):
     """
     全ユーザー情報取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -67,6 +99,16 @@ def test_get_all_users_integration(seeded_gateway):
 def test_get_all_users_with_department_integration(seeded_gateway):
     """
     全ユーザー情報を部門情報を付与して取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -82,6 +124,16 @@ def test_get_all_users_with_department_integration(seeded_gateway):
 def test_get_all_users_with_department_like_sql_integration(seeded_gateway):
     """
     全ユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -97,6 +149,16 @@ def test_get_all_users_with_department_like_sql_integration(seeded_gateway):
 def test_get_one_user_by_id_integration(seeded_gateway):
     """
     指定IDのユーザー情報取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -109,6 +171,16 @@ def test_get_one_user_by_id_integration(seeded_gateway):
 def test_get_one_user_with_department_by_id_integration(seeded_gateway):
     """
     指定IDのユーザー情報を部門情報を付与して取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -123,6 +195,16 @@ def test_get_one_user_with_department_by_id_integration(seeded_gateway):
 def test_get_one_user_with_department_like_sql_by_id_integration(seeded_gateway):
     """
     指定IDのユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = UserService(seeded_gateway)
@@ -137,6 +219,16 @@ def test_get_one_user_with_department_like_sql_by_id_integration(seeded_gateway)
 def test_get_all_departments_integration(seeded_gateway):
     """
     全部門情報取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = DepartmentService(seeded_gateway)
@@ -153,6 +245,16 @@ def test_get_all_departments_integration(seeded_gateway):
 def test_get_one_department_by_id_integration(seeded_gateway):
     """
     指定IDの部門情報取得のテスト
+
+    Parameters
+    -------
+    seeded_gateway
+        上記fixtureのseeded_gateway
+
+    Returns
+    -------
+    None
+        なし
     """
 
     service = DepartmentService(seeded_gateway)
