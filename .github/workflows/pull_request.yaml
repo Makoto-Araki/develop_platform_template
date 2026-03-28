@@ -68,18 +68,22 @@ jobs:
           chmod +x kube-linter
           sudo mv kube-linter /usr/local/bin/
 
-      # 11. DockerイメージをCI用にビルド
+      # 11. Kubernetesマニフェストの静的解析
+      - name: Run kube-linter
+        run: kube-linter lint ./k8s
+
+      # 12. DockerイメージをCI用にビルド
       - name: Build image for CI
         run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
-      # 12. unitテストの実行(コンテナ内)
+      # 13. unitテストの実行(コンテナ内)
       - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:ci \
             python -m pytest test/unit -v
 
-      # 13. integrationテストの実行(コンテナ内)
+      # 14. integrationテストの実行(コンテナ内)
       - name: Run Integration Tests
         run: |
           docker run --rm \
