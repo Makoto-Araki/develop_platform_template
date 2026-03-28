@@ -10,6 +10,7 @@
 ## 開発履歴
 | 日付       | バージョン | 説明                                           |
 | ---------- | --------- | ---------------------------------------------- |
+| 2026/03/29 | 0.12.0    | kube-linter導入(KubernetesのYAML品質向上)       |
 | 2026/03/28 | 0.11.0    | mypy導入(静的型チェックによる品質向上)            |
 | 2026/03/22 | 0.10.0    | テーブル結合の処理追加                           | 
 | 2026/03/21 | 0.9.0     | SQL文をORMモデルに変更                          |
@@ -44,13 +45,19 @@
 - Ruffの設定はpyproject.tomlで一元管理
 - DevContainer内でコード保存時に自動フォーマットおよび修正
 - WSL Terminal上でgit commit時に自動チェック
-‐ PR生成時にCIで最終チェック
+- PR作成時にCIで最終チェック
 
 ## 静的型チェック (mypy)
 - DevContainer内で型チェックを実行
 - PR時にCIで型整合性を検証
 - 実行前に型不整合を検出し、バグを未然に防止
 - 型チェック対象はsrcディレクトリ配下(アプリケーションコードのみ対象)
+
+## Kubernetesマニフェスト検証 (kube-linter)
+- kube-linter によりKubernetesマニフェストの静的解析を実施
+- セキュリティ設定やリソース定義などのベストプラクティス違反を検出
+- DevContainer内でローカルチェック可能
+- PR作成時にCIで自動検証
 
 ## CI/CD導入前の開発手順
 ### 環境構築＋開発作業＋テスト実行
@@ -96,6 +103,9 @@ $ python -m pytest test/unit
 
 ## DevContainer内でintegrationテスト実行
 $ python -m pytest test/integration
+
+## DevContainer内でkubernetesのYAMLチェック
+$ kube-linter lint ./k8s
 ```
 
 ### 手動デプロイ
@@ -173,6 +183,9 @@ $ python -m pytest test/unit
 
 ## DevContainer内でintegrationテスト実行
 $ python -m pytest test/integration
+
+## DevContainer内でkubernetesのYAMLチェック
+$ kube-linter lint ./k8s
 
 ## ステージング移行
 $ git add .

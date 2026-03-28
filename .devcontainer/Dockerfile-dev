@@ -12,6 +12,10 @@ COPY requirements/requirements-dev.txt requirements/requirements-dev.txt
 # requirements.txtに基づきPythonパッケージをインストール
 RUN pip install --no-cache-dir -r requirements/requirements-dev.txt
 
+# kube-linter導入
+RUN curl -L https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux.tar.gz \
+  | tar xz && mv kube-linter /usr/local/bin/
+
 # 残りのソースコードをコンテナ内にコピー
 COPY . .
 
