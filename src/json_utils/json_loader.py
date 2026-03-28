@@ -1,11 +1,9 @@
 import json
 from pathlib import Path
+from typing import Any, cast
 
 
-# --------------------------------------------------
-# JSONファイルを読み込み辞書に変換する
-# --------------------------------------------------
-def load_json_to_dict(file_path: str) -> dict:
+def load_json_to_dict(file_path: str) -> dict[str, Any]:
     """
     JSONファイルを読み込み辞書に変換する
 
@@ -16,7 +14,7 @@ def load_json_to_dict(file_path: str) -> dict:
 
     Returns
     -------
-    dict
+    dict[str, Any]
         辞書
 
     Raises
@@ -29,17 +27,14 @@ def load_json_to_dict(file_path: str) -> dict:
 
     try:
         with open(file_path, encoding="utf-8") as f:
-            return json.load(f)
+            return cast(dict[str, Any], json.load(f))
     except FileNotFoundError as e:
         raise FileNotFoundError(f"ファイルが見つかりません: {file_path}") from e
     except json.JSONDecodeError as e:
         raise ValueError(f"JSONの解析に失敗しました: {e}") from e
 
 
-# --------------------------------------------------
-# フォルダ内のJSONファイルを辞書リストで返す
-# --------------------------------------------------
-def load_jsons_from_directory(dir_path: str) -> list[dict]:
+def load_jsons_from_directory(dir_path: str) -> list[dict[str, Any]]:
     """
     フォルダ内のJSONファイルを辞書リストで返す
 
@@ -64,7 +59,7 @@ def load_jsons_from_directory(dir_path: str) -> list[dict]:
     if not path.exists():
         raise FileNotFoundError(f"フォルダが存在しません: {dir_path}")
 
-    result: list[dict] = []
+    result: list[dict[str, Any]] = []
 
     for json_file in path.glob("*.json"):
         data = load_json_to_dict(str(json_file))
