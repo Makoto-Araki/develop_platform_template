@@ -47,18 +47,39 @@ jobs:
       - name: Run mypy
         run: mypy src
 
-      # 8. DockerイメージをCI用にビルド
+      # 8. kube-linterバイナリをキャッシュ保存
+      - name: Cache kube-linter
+        id: cache-kube-linter
+        uses: actions/cache@v4
+        with:
+          path: kube-linter
+          key: kube-linter-v0.8.3
+
+      # 9. kube-linterインストール(キャッシュ未ヒット時のみダウンロード)
+      - name: Install kube-linter
+        if: steps.cache-kube-linter.outputs.cache-hit != 'true'
+        run: |
+          curl -L https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux.tar.gz \
+          | tar xz
+
+      # 10. kube-linterを実行可能パスに配置
+      - name: Move kube-linter
+        run: |
+          chmod +x kube-linter
+          sudo mv kube-linter /usr/local/bin/
+
+      # 11. DockerイメージをCI用にビルド
       - name: Build image for CI
         run: docker build -t develop_platform_template_image:ci -f .devcontainer/Dockerfile-dev .
 
-      # 9. unitテストの実行(コンテナ内)
+      # 12. unitテストの実行(コンテナ内)
       - name: Run Unit Tests
         run: |
           docker run --rm \
             develop_platform_template_image:ci \
             python -m pytest test/unit -v
 
-      # 10. integrationテストの実行(コンテナ内)
+      # 13. integrationテストの実行(コンテナ内)
       - name: Run Integration Tests
         run: |
           docker run --rm \
