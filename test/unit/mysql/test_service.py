@@ -29,7 +29,19 @@ class DummyDepartment:
 
 def create_mock_user_gateway(users):
     """
-    モック作成
+    モックオブジェクト作成
+
+    Parameters
+    -------
+    users
+        ダミー情報のクラス定義
+
+    Returns
+    -------
+    gateway
+        後の処理で使用するデータをセットしたモックオブジェクト
+    session
+        後の処理で使用するデータをセットしたモックオブジェクト
     """
 
     session = MagicMock()
@@ -45,13 +57,22 @@ def create_mock_user_gateway(users):
 def test_get_all_users():
     """
     全ユーザー情報取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users = [
         DummyUser(1, "Alice", "alice@test.com", 1),
         DummyUser(2, "Bob", "bob@test.com", 2),
     ]
-
     gateway, session = create_mock_user_gateway(users)
     service = UserService(gateway)
     df = service.get_all_users()
@@ -67,12 +88,21 @@ def test_get_all_users():
 def test_get_one_user_by_id():
     """
     指定IDのユーザー情報取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users = [
         DummyUser(1, "Alice", "alice@test.com", 1),
     ]
-
     gateway, session = create_mock_user_gateway(users)
     service = UserService(gateway)
     df = service.get_one_user_by_id(1)
@@ -86,7 +116,19 @@ def test_get_one_user_by_id():
 
 def create_mock_department_gateway(departments):
     """
-    モック作成
+    モックオブジェクト作成
+
+    Parameters
+    -------
+    departments
+        ダミー情報のクラス定義
+
+    Returns
+    -------
+    gateway
+        後の処理で使用するデータをセットしたモックオブジェクト
+    session
+        後の処理で使用するデータをセットしたモックオブジェクト
     """
 
     session = MagicMock()
@@ -102,6 +144,16 @@ def create_mock_department_gateway(departments):
 def test_get_all_departments():
     """
     全部門情報取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     departments = [
@@ -124,6 +176,16 @@ def test_get_all_departments():
 def test_get_one_department_by_id():
     """
     指定IDの部門情報取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     departments = [
@@ -143,7 +205,19 @@ def test_get_one_department_by_id():
 
 def create_mock_user_with_department_gateway(rows):
     """
-    モック作成
+    モックオブジェクト作成
+
+    Parameters
+    -------
+    rows
+        ダミー情報のクラス定義
+
+    Returns
+    -------
+    gateway
+        後の処理で使用するデータをセットしたモックオブジェクト
+    session
+        後の処理で使用するデータをセットしたモックオブジェクト
     """
 
     session = MagicMock()
@@ -159,6 +233,16 @@ def create_mock_user_with_department_gateway(rows):
 def test_get_all_users_with_department():
     """
     全ユーザー情報を部門情報を付与して取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users_with_department = [
@@ -187,6 +271,16 @@ def test_get_all_users_with_department():
 def test_get_all_users_with_department_like_sql():
     """
     全ユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users_with_department = [
@@ -209,6 +303,16 @@ def test_get_all_users_with_department_like_sql():
 def test_get_one_user_with_department_by_id():
     """
     指定IDのユーザー情報を部門情報を付与して取得のテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users_with_department = [
@@ -232,6 +336,16 @@ def test_get_one_user_with_department_by_id():
 def test_get_one_user_with_department_by_id_like_sql():
     """
     指定IDのユーザー情報を部門情報を付与してSQLフラットな結果を返すテスト
+
+    Parameters
+    -------
+    None
+        なし
+
+    Returns
+    -------
+    None
+        なし
     """
 
     users_with_department = [

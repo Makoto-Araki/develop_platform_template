@@ -1,24 +1,10 @@
-"""
-width モジュールの単体テスト
-
-to_half_width
-1. 正常系テスト
-    日本語文字列のみ半角に変換
-2. 異常系テスト
-    引数の text がstr型でない場合にTypeError例外発生
-"""
-
 import pytest
 
 from src.jptext.width import to_half_width
 
-# --------------------------------------------------
-# to_half_widthテスト
-# --------------------------------------------------
-
 
 @pytest.mark.parametrize(
-    "a, expected",
+    "data, expected",
     [
         ("タナカ", "ﾀﾅｶ"),
         ("タナカABCタナカ", "ﾀﾅｶABCﾀﾅｶ"),
@@ -31,30 +17,65 @@ from src.jptext.width import to_half_width
         ("ABC田中ABC", "ABC田中ABC"),
     ],
 )
-def test_to_half_width_success_behavior(a, expected):
-    assert expected == to_half_width(a)
+def test_to_half_width_success_behavior(data, expected):
+    """
+    全角文字列の半角変換のテスト
+
+    Parameters
+    -------
+    data
+        日本語文字列
+    expected
+        正しいテスト結果
+
+    Returns
+    -------
+    None
+        なし
+    """
+
+    assert expected == to_half_width(data)
 
 
 @pytest.mark.parametrize(
-    "a",
+    "data",
     [
-        (-100),  # int
-        (0),  # int
-        (1000),  # int
-        (-0.5),  # float
-        (3.14),  # float
-        (2 + 3j),  # complex
-        (True),  # bool
-        (False),  # bool
-        ([1, 2, 3]),  # list
-        (["a", "b", "c"]),  # list
-        ((1, 2, 3)),  # tuple
-        (("a", "b", "c")),  # tuple
-        ({"name": 10000}),  # dict
-        ({"name": "aaa"}),  # dict
+        (-100),
+        (0),
+        (1000),
+        (-0.5),
+        (3.14),
+        (2 + 3j),
+        (True),
+        (False),
+        ([1, 2, 3]),
+        (["a", "b", "c"]),
+        ((1, 2, 3)),
+        (("a", "b", "c")),
+        ({"name": 10000}),
+        ({"name": "aaa"}),
         (None),
     ],
 )
-def test_to_half_width_error_behavior(a):
+def test_to_half_width_error_behavior(data):
+    """
+    全角文字列の半角変換のエラー発生テスト
+
+    Parameters
+    -------
+    data
+        エラー発生用データ
+
+    Returns
+    -------
+    None
+        なし
+
+    Raises
+    -------
+    TypeError
+        エラーメッセージ表示
+    """
+
     with pytest.raises(TypeError, match="text must be str"):
-        to_half_width(a)
+        to_half_width(data)
