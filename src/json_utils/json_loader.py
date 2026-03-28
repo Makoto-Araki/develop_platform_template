@@ -5,7 +5,7 @@ from typing import Any, cast
 
 def load_json_to_dict(file_path: str) -> dict[str, Any]:
     """
-    JSONファイルを読み込み辞書に変換する
+    JSONファイルを読み込み辞書に変換
 
     Parameters
     -------

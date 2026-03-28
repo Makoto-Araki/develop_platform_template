@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import select
 
-from mysql.models import Department, User
+from src.mysql.models import Department, User
 
 
 class UserService:
